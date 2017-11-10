@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600">
+	<fx:Declarations>
+		<s:RemoteObject id="roMethodeJ2ee"
+						destination="destJ2ee"
+						result="resultatOK(event)"
+						fault="resultatKO(event)"
+						showBusyCursor="true">
+		</s:RemoteObject>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			public function executerMethodeJ2EE():void 
+			{
+				var a:int = int(txt_entiera.text);
+				var b:int = int(txt_entierb.text);
+				roMethodeJ2ee.calculer(a,b);
+			}
+			
+			public function resultatOK(e:ResultEvent):void
+			{
+				txt_resultat.text = e.result.toString();
+			}
+			
+			public function resultatKO(e:FaultEvent):void
+			{
+				Alert.show(e.fault.faultString);
+			}
+		]]>
+	</fx:Script>
+	<s:Panel x="10" y="10" width="250" height="250" title="Addition">
+		<s:Form x="10" y="10" height="107" width="210">
+			<s:FormItem label="Entier A : ">
+				<s:TextInput width="78" id="txt_entiera"/>
+			</s:FormItem>
+			<s:FormItem label="Entier B : ">
+				<s:TextInput width="78" id="txt_entierb"/>
+			</s:FormItem>
+			<s:FormItem label="Résultat : ">
+				<s:TextInput width="79" id="txt_resultat"/>
+			</s:FormItem>
+		</s:Form>
+		<s:Button x="10" y="180" label="Calculer A+B" width="210" click="executerMethodeJ2EE()"/>
+	</s:Panel>
+</s:Application>
